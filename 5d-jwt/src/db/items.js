@@ -11,9 +11,18 @@ module.exports = (pool) => {
     return new Item(res.rows[0])
   }
   
-  db.findAllItems = async () => {
+  // db.findAllItems = async () => {
+  //   const res = await pool.query(
+  //     'SELECT * FROM Items'
+  //   )
+  //   return res.rows.map(row => new Item(row))
+  // }
+
+  //homework 17Aug
+  db.findAllItems = async (uid) => {
     const res = await pool.query(
-      'SELECT * FROM Items'
+      'SELECT * FROM Items WHERE uid=$1',
+      [uid]
     )
     return res.rows.map(row => new Item(row))
   }
@@ -33,6 +42,17 @@ module.exports = (pool) => {
     )
     return new Item(res.rows[0])
   }
+
+  //homework 17Aug
+  db.updateItemByUid = async (id, item) => {
+    const res = await pool.query(
+      'UPDATE Items SET name=$2, quantity=$3, uid=$4 WHERE id=$1 AND uid=$5 RETURNING *',
+      [id, item.name, item.quantity, item.uid, item.uid]
+    )
+    // console.log(res)
+    return res.rowCount ? new Item(res.rows[0]) : null;
+  }
+
 
   db.deleteItem = async (id) => {
     const res = await pool.query(
