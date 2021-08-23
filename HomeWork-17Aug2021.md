@@ -9,7 +9,7 @@ PUT /items/:id
 
 
 # Question 1
-[click to see] (./5d-jwt/src/routes/items.js)
+
 ```js
 // 5d-jwt/src/routes/items.js
   router.get('/', async (req, res, next) => {
